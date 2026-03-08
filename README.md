@@ -1,9 +1,8 @@
 ### scanner port
-Scanner de portas TCP que identifica serviços ativos em um intervalo definido.
-ele Mapeamento de serviços comuns (SSH, HTTP, FTP, etc)
-e Gera automaticamente um arquivo `scannerPort.txt` com os resultados.
+TCP port scanner that identifies active services in a defined range.
+it maps common services (SSH, HTTP, FTP, etc.)
+and automatically generates a `scannerPort.txt` file with the results.
 
 ### retry scanner
-Ferramenta de persistência para testar a estabilidade de portas específicas.
-ela Tenta estabelecer conexão varias vezes antes de desistir.
-
+Persistence tool to test the stability of specific ports.
+it tries to establish a connection several times before giving up.
