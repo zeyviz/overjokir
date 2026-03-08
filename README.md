@@ -11,7 +11,6 @@ ela Tenta estabelecer conexão varias vezes antes de desistir.
 
 ## como executar
 
-**Compile o arquivo desejado:**
    ```bash
    javac RetryScanner.java
 ```
