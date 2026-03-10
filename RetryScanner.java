@@ -8,16 +8,20 @@ public class RetryScanner {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Digite o Ip: ");
-        String ip = sc.next();
+        char resposta = '0';
 
-        System.out.println("Porta: ");
-        int porta = sc.nextInt();
+        do {
+            System.out.println("Digite o Ip: ");
+            String ip = sc.next();
 
-        System.out.println("Quantas tentativas?: ");
-        int tentativas = sc.nextInt();
+            System.out.println("Porta: ");
+            int porta = sc.nextInt();
 
-        for (int i=tentativas; i > 0; i--) {
+            System.out.println("Quantas tentativas?: ");
+            int tentativas = sc.nextInt();
+            
+            for (int i=tentativas; i > 0; i--) {
+
             try {
                 Socket socket = new Socket();
                 socket.connect(new InetSocketAddress(ip, porta), 1000);
@@ -28,8 +32,15 @@ public class RetryScanner {
                 break;
             } catch (IOException e) {
                 System.out.println("[falha na conexão] Motivo: " + e.getMessage());
-            } 
+            }
         }
+
+        System.out.println("Deseja continuar? (s/n): ");
+        resposta = sc.next().charAt(0);
+
+        } while (resposta == 's' || resposta == 'S');
+
+
         
         sc.close();
     }
