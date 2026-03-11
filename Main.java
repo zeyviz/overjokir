@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.net.Socket;
 import java.net.InetSocketAddress;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Main {
@@ -19,51 +20,62 @@ public class Main {
         System.out.println("Porta Final: ");
         int portaFinal = sc.nextInt();
 
+        System.out.println("Quantas tentativas?: ");
+        int tentativas = sc.nextInt();
+
         try (PrintWriter writer = new PrintWriter("scannerPort.txt", "UTF-8")) {
 
             writer.println("Portas: ");
 
             for (int i = portaInicial; i <= portaFinal; i++) {
-                try {
-                    Socket socket = new Socket();
-                    socket.connect(new InetSocketAddress(ip, i), 1000);
+    
+                String tipo1 = "";
 
-                    String tipo1 = "";
 
-                    switch (i) {
-                        case 22:
-                            tipo1 = "SSH (Acesso Remoto)";
+                for (int n = tentativas; n > 0; n--) {
+
+                    try {
+
+                        Socket socket = new Socket();
+                        socket.connect(new InetSocketAddress(ip, i), 1000);
+
+                        switch (i) {
+                            case 22:
+                                tipo1 = "SSH (Acesso Remoto)";
+                                break;
+                            case 80:
+                                tipo1 = "HTTP (Web)";
+                                break;
+                            case 21:
+                                tipo1 = "FTP (Transferência de Arquivos)";
+                                break;
+                            case 443:
+                                tipo1 = "HTTPS (Web Segura)";
+                                break;
+                            case 3306:
+                                tipo1 = "MySQL (Banco de Dados)";
+                                break;
+                            case 5432:
+                                tipo1 = "PostgreSQL (Banco de Dados)";
+                                break;
+                            case 8080:
+                                tipo1 = "Proxy/Tomcat (Web Alternativa)";
+                                break;
+                            default:
+                                tipo1 = "Número Desconhecido";
+                                break;
+                        }
+
+                        System.out.println("A Conexão com a porta " + i + " serviço: " + tipo1 + " Foi estabelecido");
+                        writer.println("A Conexão com a porta " + i + " serviço: " + tipo1 + " foi estabelecido");
+
+                        socket.close();
                         break;
-                        case 80:
-                            tipo1 = "HTTP (Web)";
-                        break;
-                        case 21:
-                            tipo1 = "FTP (Transferência de Arquivos)";
-                        break;
-                        case 443:
-                            tipo1 = "HTTPS (Web Segura)";
-                        break;
-                        case 3306:
-                            tipo1 = "MySQL (Banco de Dados)";
-                        break;
-                        case 5432:
-                            tipo1 = "PostgreSQL (Banco de Dados)";
-                        break;
-                        case 8080:
-                            tipo1 = "Proxy/Tomcat (Web Alternativa)";
-                        break;
-                        default:
-                            tipo1 = "Número Desconhecido";
-                        break;
+                    } catch (IOException e) {
+                        System.out.println("[falha na conexão] Motivo: " + e.getMessage());
                     }
-
-                    System.out.println("Porta " + i + " [ABERTA] - Serviço: " + tipo1);
-                    writer.println("Porta " + i + " [ABERTA] - Serviço: " + tipo1);
-
-                    socket.close();
-                } catch (Exception e) {
-                    System.out.println("Porta " + i + " [fechada ou bloqueada]");
                 }
+
             }
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
