@@ -1,2 +1,0 @@
-Portas: 
-A Conexão com a porta 80 serviço: HTTP (Web) do ip  192.168.122.4 foi estabelecido
